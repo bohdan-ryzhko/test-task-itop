@@ -1,17 +1,26 @@
-<header>
-	<app-select [(currency)]="currentCurrency"
-		(currencyChange)="onCurrencyChange($event, 'currentCurrency')"></app-select>
-	<app-input [(amount)]="amount" (amountChange)="onAmountChange($event)"></app-input>
-	<app-select [(currency)]="convertTo" (currencyChange)="onCurrencyChange($event, 'convertTo')"></app-select>
-	<h3>
-		Result convertation: {{result}}
-	</h3>
-	<p>
-		<span>USD</span>
-		<span>{{coefficient.USD}}</span>
-	</p>
-	<p>
-		<span>EUR</span>
-		<span>{{coefficient.EUR}}</span>
-	</p>
+<header class="header">
+	<div class="container">
+		<div class="header__inner">
+			<div class="convertation">
+				<app-select [(currency)]="currentCurrency"
+					(currencyChange)="onCurrencyChange($event, 'currentCurrency')"></app-select>
+				<app-input [(amount)]="amount" (amountChange)="onAmountChange($event)"></app-input>
+				<span>Conver to</span>
+				<app-select [(currency)]="convertTo" (currencyChange)="onCurrencyChange($event, 'convertTo')"></app-select>
+				<p class="convertation-result">
+					Result convertation: {{result}}
+				</p>
+			</div>
+			<div class="values">
+				<p class="values__default">
+					<span>USD:</span>
+					<span>{{coefficient["USD"]}}</span>
+				</p>
+				<p class="values__default">
+					<span>EUR:</span>
+					<span>{{coefficient["EUR"]}}</span>
+				</p>
+			</div>
+		</div>
+	</div>
 </header>

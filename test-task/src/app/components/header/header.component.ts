@@ -6,11 +6,16 @@ interface ICurrencyData {
   r030: number,
   txt: string,
   rate: number,
-  cc: string,
+  cc: Currencies,
   exchangedate: string
 }
 
 type PropertyToUpdate = "currentCurrency" | "convertTo";
+
+const urls: string[] = [
+  'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json&valcode=USD',
+  'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json&valcode=EUR',
+];
 
 @Component({
   selector: 'app-header',
@@ -20,11 +25,11 @@ type PropertyToUpdate = "currentCurrency" | "convertTo";
 export class HeaderComponent {
 
   currentCurrency: Currencies = '';
-  amount = '';
+  amount = '1';
   convertTo: Currencies = '';
   result = 0;
 
-  coefficient = {
+  coefficient: { [key: string]: number } = {
     UAH: 1,
     USD: 0,
     EUR: 0,
@@ -33,16 +38,12 @@ export class HeaderComponent {
   constructor(private http: HttpClient) { }
 
   getCurrencyData() {
-    const urlUSD = 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json&valcode=USD';
-    const urlEUR = 'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json&valcode=EUR';
-    this.http.get<ICurrencyData[]>(urlUSD)
-      .subscribe(response => {
-        this.coefficient.USD = response[0].rate;
-      });
-    this.http.get<ICurrencyData[]>(urlEUR)
-      .subscribe(response => {
-        this.coefficient.EUR = response[0].rate;
-      })
+    urls.forEach(url => {
+      this.http.get<ICurrencyData[]>(url)
+        .subscribe(response => {
+          this.coefficient[response[0].cc] = response[0].rate;
+        });
+    });
   }
 
   onAmountChange(value: string) {
