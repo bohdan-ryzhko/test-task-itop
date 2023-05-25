@@ -1,0 +1,17 @@
+<header>
+	<app-select [(currency)]="currentCurrency"
+		(currencyChange)="onCurrencyChange($event, 'currentCurrency')"></app-select>
+	<app-input [(amount)]="amount" (amountChange)="onAmountChange($event)"></app-input>
+	<app-select [(currency)]="convertTo" (currencyChange)="onCurrencyChange($event, 'convertTo')"></app-select>
+	<h3>
+		Result convertation: {{result}}
+	</h3>
+	<p>
+		<span>USD</span>
+		<span>{{coefficient.USD}}</span>
+	</p>
+	<p>
+		<span>EUR</span>
+		<span>{{coefficient.EUR}}</span>
+	</p>
+</header>
